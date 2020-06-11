@@ -22,8 +22,8 @@ RUN \
   do $SYSTEM.OBJ.Load("Installer.cls", "ck") \
   set sc = ##class(App.Installer).setup() \
   zn "%SYS" \
-  write "Create web application ...",! \
   set webName = "/csp/${app}" \
+  write "Modify "_webName_" web application ...",! \
   set webProperties("NameSpace") = ${NameSpace} \
   set webProperties("Enabled") = 1 \
   set webProperties("CSPZENEnabled") = 1 \
@@ -31,7 +31,17 @@ RUN \
   set webProperties("iKnowEnabled") = 1 \
   set webProperties("DeepSeeEnabled") = 1 \
   set sc = ##class(Security.Applications).Modify(webName, .webProperties) \
-  write "Web application "_webName_" has been updated!",! 
+  write "Web application "_webName_" has been updated!",!\
+  set webName = "/crud" \
+  write "Create "_webName_" web application ..." \
+  set webProperties("DispatchClass") = "Sample.PersonREST" \
+  set webProperties("NameSpace") = ${NameSpace} \
+  set webProperties("Enabled") = 1 \
+  set webProperties("AutheEnabled") = 32 \
+  set sc = ##class(Security.Applications).Create(webName, .webProperties) \
+  write sc \
+  write "Web application "_webName_" has been created!"
+
 
 
 # bringing the standard shell back
